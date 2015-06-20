@@ -2,9 +2,9 @@
 //
 
 #include "stdafx.h"
+#include "MakeLowerCase.h"
 
 #include <iostream>
-#include <string>
 
 using namespace std;
 
@@ -38,7 +38,7 @@ int main(int argc, const char* argv[])
 		getline(std::cin, command);
 		cout << endl;
 
-		if (command == "reset")
+		if (makeLowerCase(command) == "reset")
 		{
 			newAI = true;
 		}
