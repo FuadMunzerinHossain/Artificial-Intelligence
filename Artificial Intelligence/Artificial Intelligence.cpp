@@ -5,16 +5,18 @@
 #include "MakeLowerCase.h"
 
 #include <iostream>
+#include <time.h>
 
 using namespace std;
 
-//int _tmain(int argc, _TCHAR* argv[])
 int main(int argc, const char* argv[])
 {
 	string userName;
 	string command;
+	string commandAdjusted;
 	bool newAI = true;
 	bool exit = false;
+	clock_t start;
 	
 	//keep looping until the user wants to end the program
 	while (exit == false)
@@ -23,26 +25,34 @@ int main(int argc, const char* argv[])
 		if (newAI == true)
 		{
 			cout << "New AI initializing..." << endl;
+			start = clock();
 			cout << "Hi, What is your name? " << endl;
 			getline(std::cin, userName);
 			cout << endl;
 
 			cout << "It's nice to meet you " << userName << "!" << endl;
-			cout << endl;
 
 			newAI = false;
 		}
 
 		//get the command from the user
+		cout << endl;
 		cout << "How may I help you?" << endl;
 		getline(std::cin, command);
 		cout << endl;
 
-		if (makeLowerCase(command) == "reset")
+		commandAdjusted = makeLowerCase(command);
+
+		if (commandAdjusted == "reset")
 		{
 			newAI = true;
 		}
 
+		else if (commandAdjusted == "summary")
+		{
+			double duration = (clock() - start) / (double)CLOCKS_PER_SEC;
+			cout << "Age of AI is " << duration << " seconds." << endl;
+		}
 	}
 	return 0;
 }
