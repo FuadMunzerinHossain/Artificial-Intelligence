@@ -1,5 +1,5 @@
 #include "MakeLowerCase.h"
-#include "stdafx.h"
+#include "stdio.h"
 #include <string>
 #include <algorithm>
 
