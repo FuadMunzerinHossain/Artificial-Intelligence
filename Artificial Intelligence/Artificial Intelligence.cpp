@@ -4,14 +4,14 @@
 #include "stdio.h"
 #include "MakeLowerCase.h"
 #include "TicTacToe.h"
+#include "IsValidCommand.h"
+
 #include <string>
 #include <vector>
 #include <iostream>
 #include <time.h>
 
 using namespace std;
-
-bool validCommand(string command);
 
 int main(int argc, const char* argv[])
 {
@@ -77,7 +77,7 @@ int main(int argc, const char* argv[])
 			gameSelectAdjusted = makeLowerCase(gameSelect);
 
 			//checks if argument is valid
-			while (!validCommand(gameSelectAdjusted)){
+			while (!isValidCommand(gameSelectAdjusted)){
 				cout << endl;
 				cout << "Please enter a valid argument." << endl;
 				getline(std::cin, gameSelect);
@@ -108,21 +108,4 @@ int main(int argc, const char* argv[])
 		}
 	}
 	return 0;
-}
-
-bool validCommand(string command)
-{
-	//add more as necessary
-	vector<string> validArg{
-		"1",
-		"tic-tac-toe"
-	};
-
-	bool found = false;
-
-	for (int i = 0; i < validArg.size() && !false; ++i){
-		if (validArg[i] == command) found = true;
-	}
-
-	return found;
 }
