@@ -41,6 +41,46 @@ int tictactoe(bool firstTurn)
 
 	printBoard(board);
 
+	while (boardFull(board) == false)
+	{
+		//beginning of human move
+		int row;
+		int column;
+
+		cout << "Enter row and then column number where you want to place your mark (Top left is [1,1])" << endl;
+		cin >> row >> column;
+
+		if (board[row - 1][column - 1] == ' ')
+		{
+			board[row - 1][column - 1] = player;
+			printBoard(board);
+			cout << "You have placed your piece at [" << row - 1 << "][" << column - 1 << endl;
+		}
+
+		else
+		{
+			while (board[row - 1][column - 1] != ' ')
+			{
+				cout << "Invalid move, that location is not empty." << endl;
+				cout << "Enter row and then column number where you want to place your mark (Top left is [1,1])" << endl;
+				cin >> row >> column;
+
+				if (board[row - 1][column - 1] == ' ')
+				{
+					board[row - 1][column - 1] = player;
+					printBoard(board);
+					cout << "You have placed your piece at [" << row - 1 << "][" << column - 1 << endl;
+				}
+			}
+		}
+		//end of human move
+
+		if (boardFull(board) == false)
+		{
+			aiPlacePiece(board, ai);
+		}
+	}
+
 	return 1;
 }
 
@@ -72,4 +112,33 @@ void printBoard(char(&board)[3][3])
 		cout << endl;
 	}
 	cout << endl;
+}
+
+void aiPlacePiece(char(&board)[3][3], char ai)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (board[i][j] == ' ')
+			{
+				board[i][j] = ai;
+
+				if (calculateLongestStreakAtThisLocation(board, i, j, ai) == 3)
+				{
+					return;
+				}
+
+				board[i][j] = ' ';
+			}
+		}
+		cout << endl;
+	}
+	return;
+}
+
+int calculateLongestStreakAtThisLocation(char(&board)[3][3], int i, int j, char ai)
+{
+	
+	return 1;
 }
