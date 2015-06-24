@@ -69,7 +69,7 @@ int tictactoe(bool firstTurn)
 				{
 					board[row - 1][column - 1] = player;
 					printBoard(board);
-					cout << "You have placed your piece at [" << row - 1 << "][" << column - 1 << endl;
+					cout << "You have placed your piece at [" << row - 1 << "][" << column - 1 <<"]"<< endl;
 				}
 			}
 		}
@@ -77,9 +77,12 @@ int tictactoe(bool firstTurn)
 
 		if (boardFull(board) == false)
 		{
-			aiPlacePiece(board, ai);
+			aiPlacePiece(board, ai, player);
+			printBoard(board);
 		}
 	}
+
+	cout << "Game Over." << endl;
 
 	return 1;
 }
@@ -114,7 +117,7 @@ void printBoard(char(&board)[3][3])
 	cout << endl;
 }
 
-void aiPlacePiece(char(&board)[3][3], char ai)
+void aiPlacePiece(char(&board)[3][3], char ai, char player)
 {
 	for (int i = 0; i < 3; i++)
 	{
@@ -131,14 +134,180 @@ void aiPlacePiece(char(&board)[3][3], char ai)
 
 				board[i][j] = ' ';
 			}
+
+			if (board[i][j] == ' ')
+			{
+				board[i][j] = player;
+
+				if (calculateLongestStreakAtThisLocation(board, i, j, player) == 3)
+				{
+					board[i][j] = ai;
+					return;
+				}
+
+				board[i][j] = ' ';
+			}
+
+			if (board[i][j] == ' ')
+			{
+				board[i][j] = ai;
+
+				if (calculateLongestStreakAtThisLocation(board, i, j, ai) == 2)
+				{
+					return;
+				}
+
+				board[i][j] = ' ';
+			}
+
+			if (board[i][j] == ' ')
+			{
+				board[i][j] = player;
+
+				if (calculateLongestStreakAtThisLocation(board, i, j, player) == 2)
+				{
+					board[i][j] = ai;
+					return;
+				}
+
+				board[i][j] = ' ';
+			}
 		}
 		cout << endl;
 	}
 	return;
 }
 
-int calculateLongestStreakAtThisLocation(char(&board)[3][3], int i, int j, char ai)
+int calculateLongestStreakAtThisLocation(char(&board)[3][3], int i, int j, char piece)
 {
-	
-	return 1;
+	int score = 1;
+	int verticalScore = calculateVerticalScore(board, i, j, piece);
+
+	if (verticalScore > score)
+	{
+		score = verticalScore;
+	}
+
+	int horizontalScore = calculateHorizontalScore(board, i, j, piece);
+
+	if (horizontalScore > score)
+	{
+		score = horizontalScore;
+	}
+
+	int diagonalScore1 = calculateDiagonalScore1(board, i, j, piece);
+
+	if (diagonalScore1 > score)
+	{
+		score = diagonalScore1;
+	}
+
+	int diagonalScore2 = calculateDiagonalScore2(board, i, j, piece);
+
+	if (diagonalScore2 > score)
+	{
+		score = diagonalScore2;
+	}
+
+	return score;
+}
+
+int calculateVerticalScore(char(&board)[3][3], int i, int j, char piece)
+{
+	int score = 1;
+
+	int tempi = i;
+
+	while (tempi > 0 && board[tempi - 1][j] == piece)
+	{
+		tempi--;
+		score++;
+	}
+
+	tempi = i;
+
+	while (tempi < 2 && board[tempi + 1][j] == piece)
+	{
+		tempi++;
+		score++;
+	}
+
+	return score;
+}
+
+int calculateHorizontalScore(char(&board)[3][3], int i, int j, char piece)
+{
+	int score = 1;
+
+	int tempj = j;
+
+	while (tempj > 0 && board[i][tempj-1] == piece)
+	{
+		tempj--;
+		score++;
+	}
+
+	tempj = i;
+
+	while (tempj < 2 && board[i][tempj+1] == piece)
+	{
+		tempj++;
+		score++;
+	}
+
+	return score;
+}
+
+int calculateDiagonalScore1(char(&board)[3][3], int i, int j, char piece)
+{
+	int score = 1;
+
+	int tempi = i;
+	int tempj = j;
+
+	while (tempi > 0 && tempj>0 && board[tempi - 1][tempj-1] == piece)
+	{
+		tempi--;
+		tempj--;
+		score++;
+	}
+
+	tempi = i;
+	tempj = j;
+
+	while (tempi < 2 && tempj<2 && board[tempi + 1][tempj + 1] == piece)
+	{
+		tempi++;
+		tempj++;
+		score++;
+	}
+
+	return score;
+}
+
+int calculateDiagonalScore2(char(&board)[3][3], int i, int j, char piece)
+{
+	int score = 1;
+
+	int tempi = i;
+	int tempj = j;
+
+	while (tempi > 0 && tempj<2 && board[tempi - 1][tempj + 1] == piece)
+	{
+		tempi--;
+		tempj++;
+		score++;
+	}
+
+	tempi = i;
+	tempj = j;
+
+	while (tempi < 2 && tempj>0 && board[tempi + 1][tempj - 1] == piece)
+	{
+		tempi++;
+		tempj--;
+		score++;
+	}
+
+	return score;
 }
