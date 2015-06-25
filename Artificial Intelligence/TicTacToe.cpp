@@ -37,9 +37,14 @@ int tictactoe(bool firstTurn)
 	if (firstTurn == false)
 	{
 		board[1][1] = ai;
+		printBoard(board);
+		cout << "I have placed my mark at [2,2]" << endl;
 	}
-
-	printBoard(board);
+	else
+	{
+		printBoard(board);
+	}
+	
 
 	while (boardFull(board) == false)
 	{
@@ -47,33 +52,48 @@ int tictactoe(bool firstTurn)
 		int row;
 		int column;
 
-		cout << "Enter row and then column number where you want to place your mark (Top left is [1,1])" << endl;
+		cout << "Enter row and column no. where you want to place your mark (Top left is [1,1])" << endl;
 		cin >> row >> column;
 
 		if (board[row - 1][column - 1] == ' ')
 		{
 			board[row - 1][column - 1] = player;
 			printBoard(board);
-			cout << "You have placed your piece at [" << row - 1 << "][" << column - 1 << endl;
+			cout << "You have placed your piece at [" << row - 1 << "][" << column - 1 << "]" << endl;
 		}
 
 		else
 		{
-			while (board[row - 1][column - 1] != ' ')
+			bool exitLogicLoop = false;
+
+			while (exitLogicLoop == false)
 			{
 				cout << "Invalid move, that location is not empty." << endl;
-				cout << "Enter row and then column number where you want to place your mark (Top left is [1,1])" << endl;
+				cout << "Enter row and column no. where you want to place your mark (Top left is [1,1])" << endl;
 				cin >> row >> column;
 
 				if (board[row - 1][column - 1] == ' ')
 				{
 					board[row - 1][column - 1] = player;
 					printBoard(board);
-					cout << "You have placed your piece at [" << row - 1 << "][" << column - 1 <<"]"<< endl;
+					cout << "You have placed your mark at [" << row - 1 << "][" << column - 1 <<"]"<< endl;
+					exitLogicLoop = true;
 				}
 			}
 		}
 		//end of human move
+
+		if (isGameWon(board, player) == true)
+		{
+			cout << "Game Over. You win." << endl;
+			return 1;
+		}
+
+		else if (isGameWon(board, ai) == true)
+		{
+			cout << "Game Over. I win." << endl;
+			return 2;
+		}
 
 		if (boardFull(board) == false)
 		{
@@ -82,9 +102,8 @@ int tictactoe(bool firstTurn)
 		}
 	}
 
-	cout << "Game Over." << endl;
-
-	return 1;
+	cout << "Game Over. It is a draw." << endl;
+	return 0;
 }
 
 bool boardFull(char  (&board)[3][3])
@@ -310,4 +329,19 @@ int calculateDiagonalScore2(char(&board)[3][3], int i, int j, char piece)
 	}
 
 	return score;
+}
+
+bool isGameWon(char(&board)[3][3], char piece)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (calculateLongestStreakAtThisLocation(board, i, j, piece) == 3)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
 }
