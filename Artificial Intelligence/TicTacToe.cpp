@@ -333,15 +333,45 @@ int calculateDiagonalScore2(char(&board)[3][3], int i, int j, char piece)
 
 bool isGameWon(char(&board)[3][3], char piece)
 {
-	for (int i = 0; i < 3; i++)
+	if (board[0][0] == piece && board[0][1] == piece && board[0][2] == piece)
 	{
-		for (int j = 0; j < 3; j++)
-		{
-			if (calculateLongestStreakAtThisLocation(board, i, j, piece) == 3)
-			{
-				return true;
-			}
-		}
+		return true;
 	}
+
+	if (board[1][0] == piece && board[1][1] == piece && board[1][2] == piece)
+	{
+		return true;
+	}
+
+	if (board[2][0] == piece && board[2][1] == piece && board[2][2] == piece)
+	{
+		return true;
+	}
+
+	if (board[0][0] == piece && board[1][0] == piece && board[2][0] == piece)
+	{
+		return true;
+	}
+
+	if (board[0][1] == piece && board[1][1] == piece && board[2][1] == piece)
+	{
+		return true;
+	}
+
+	if (board[0][2] == piece && board[1][2] == piece && board[2][2] == piece)
+	{
+		return true;
+	}
+
+	if (board[0][0] == piece && board[1][1] == piece && board[2][2] == piece)
+	{
+		return true;
+	}
+	
+	if (board[2][0] == piece && board[1][1] == piece && board[0][2] == piece)
+	{
+		return true;
+	}
+
 	return false;
 }
