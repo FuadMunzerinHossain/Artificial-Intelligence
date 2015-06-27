@@ -138,6 +138,10 @@ void printBoard(char(&board)[3][3])
 
 void aiPlacePiece(char(&board)[3][3], char ai, char player)
 {
+	int besti;
+	int bestj;
+	bool streak = true;
+
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -173,7 +177,9 @@ void aiPlacePiece(char(&board)[3][3], char ai, char player)
 
 				if (calculateLongestStreakAtThisLocation(board, i, j, ai) == 2)
 				{
-					return;
+					besti = i;
+					bestj = j;
+					streak = false;
 				}
 
 				board[i][j] = ' ';
@@ -183,10 +189,11 @@ void aiPlacePiece(char(&board)[3][3], char ai, char player)
 			{
 				board[i][j] = player;
 
-				if (calculateLongestStreakAtThisLocation(board, i, j, player) == 2)
+				if (calculateLongestStreakAtThisLocation(board, i, j, player) == 2 && streak == true)
 				{
-					board[i][j] = ai;
-					return;
+					besti = i;
+					bestj = j;
+
 				}
 
 				board[i][j] = ' ';
@@ -194,6 +201,8 @@ void aiPlacePiece(char(&board)[3][3], char ai, char player)
 		}
 		cout << endl;
 	}
+	streak = true;
+	board[besti][bestj] = ai;
 	return;
 }
 
