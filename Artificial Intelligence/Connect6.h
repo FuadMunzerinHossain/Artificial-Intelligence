@@ -1,0 +1,1 @@
+int playConnect6(bool first);

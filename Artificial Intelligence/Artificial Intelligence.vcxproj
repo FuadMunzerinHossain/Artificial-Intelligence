@@ -80,6 +80,7 @@
     <Text Include="README - IMPORTANT.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Connect6.h" />
     <ClInclude Include="IsValidCommand.h" />
     <ClInclude Include="MakeLowerCase.h" />
     <ClInclude Include="stdafx.h" />
@@ -88,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Artificial Intelligence.cpp" />
+    <ClCompile Include="Connect6.cpp" />
     <ClCompile Include="IsValidCommand.cpp" />
     <ClCompile Include="MakeLowerCase.cpp" />
     <ClCompile Include="stdafx.cpp">
