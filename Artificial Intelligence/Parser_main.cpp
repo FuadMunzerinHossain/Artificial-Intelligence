@@ -5,19 +5,16 @@
 #include <string> 
 
 
-clock_t resetAI()
+string resetAI()
 {
 	cout << "New AI initializing..." << endl;
-
-	clock_t start = clock();
-
 	cout << "Hi, What is your name? " << endl;
 	string userName;
 	getline(std::cin, userName);
 	cout << endl;
 	cout << "It's nice to meet you " << userName << "!" << endl;
 
-	return start;
+	return userName;
 }
 
 
@@ -29,9 +26,9 @@ void showInvalidArgs(){
 	cout << "Please enter a valid argument." << endl;
 }
 
-void showSummary(clock_t start, clock_t end, int playerWins, int AiWins)
+void showSummary(clock_t start, int playerWins, int aiWins)
 {
-	double duration = (end - start) / (double)CLOCKS_PER_SEC;
+	double duration = (clock() - start) / (double)CLOCKS_PER_SEC;
 	cout << "Age of AI is " << duration << " seconds." << endl;
 	cout << "Player has " << playerWins << " game win(s)." << endl;
 	cout << "AI has " << aiWins << " game win(s)." << endl;
