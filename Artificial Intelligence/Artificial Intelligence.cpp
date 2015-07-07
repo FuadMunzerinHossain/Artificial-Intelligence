@@ -30,8 +30,6 @@ int main(int argc, const char* argv[])
 
 	// Introduction for the first time: 
 	userName = resetAI(); 
-	// above function took username but does not store it beyond scope
-	// need to modify it if we want to display username later.
 	
 	//keep looping until the user wants to end the program
 	while (exit == false)
