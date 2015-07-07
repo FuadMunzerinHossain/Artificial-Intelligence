@@ -1,10 +1,12 @@
 // Artificial Intelligence.cpp : Defines the entry point for the console application.
+// CONTAINS MAIN FUNCTION
 //
 
 #include "stdio.h"
 #include "MakeLowerCase.h"
 #include "TicTacToe.h"
 #include "IsValidCommand.h"
+#include "Parser_main.h"
 
 #include <string>
 #include <vector>
@@ -23,27 +25,17 @@ int main(int argc, const char* argv[])
 	clock_t start;
 	int playerWins = 0;
 	int aiWins = 0;
+	start = clock();	// sets the start time at now. 
+
+
+	// Introduction for the first time: 
+	userName = resetAI(); 
+	// above function took username but does not store it beyond scope
+	// need to modify it if we want to display username later.
 	
 	//keep looping until the user wants to end the program
 	while (exit == false)
 	{
-		//this if statement executes when the AI program first starts, and also if the user wishes to reset the AI
-		if (newAI == true)
-		{
-			playerWins = 0;
-			aiWins = 0;
-
-			cout << "New AI initializing..." << endl;
-			
-			start = clock();
-
-			cout << "Hi, What is your name? " << endl;
-			getline(std::cin, userName);
-			cout << endl;
-			cout << "It's nice to meet you " << userName << "!" << endl;
-
-			newAI = false;
-		}
 
 		//get the command from the user
 		cout << endl;
@@ -55,19 +47,32 @@ int main(int argc, const char* argv[])
 
 		if (commandAdjusted == "reset")
 		{
-			newAI = true;
+			playerWins = 0;
+			aiWins = 0;
+			start = clock(); // reset start time 
+			userName = resetAI(); 
 		}
 
 		else if (commandAdjusted == "summary")
 		{
-			double duration = (clock() - start) / (double)CLOCKS_PER_SEC;
-			cout << "Age of AI is " << duration << " seconds." << endl;
-			cout << "Player has " << playerWins << " game win(s)." << endl;
-			cout << "AI has " << aiWins << " game win(s)." << endl;
+			showSummary(start,  playerWins, aiWins);
+		}
+
+		else if (commandAdjusted == "exit"){
+			exit = true;
+			showSummary(start, playerWins, aiWins);
+			cout << "Thanks for playing! :)" << endl;
+		} 
+
+		else if (commandAdjusted == "help"){
+			showHelp(); 
 		}
 
 		else if (commandAdjusted == "game" || commandAdjusted == "play")
 		{
+			// The program enters the state to play game. 
+			// The logic here should be isolated away from main func.
+
 			string gameSelect;
 			string gameSelectAdjusted;
 
@@ -106,6 +111,13 @@ int main(int argc, const char* argv[])
 				}
 			}
 		}
+		else {	// invalid command 
+			cout << "Invalid Command!\n"; 
+			showHelp(); 
+		}
+
+
+
 	}
 	return 0;
 }
