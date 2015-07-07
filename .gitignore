@@ -189,3 +189,4 @@ _Pvt_Extensions/
 ModelManifest.xml
 *.filters
 Artificial Intelligence/Artificial Intelligence.vcxproj
+*.cd
