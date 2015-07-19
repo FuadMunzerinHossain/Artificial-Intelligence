@@ -21,16 +21,16 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MakeLowerCase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TicTacToe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IsValidCommand.h">
+    <ClInclude Include="Connect6.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Connect6.h">
+    <ClInclude Include="PlacePieceHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,16 +41,16 @@
     <ClCompile Include="Artificial Intelligence.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MakeLowerCase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TicTacToe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IsValidCommand.cpp">
+    <ClCompile Include="Connect6.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Connect6.cpp">
+    <ClCompile Include="PlacePieceHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
