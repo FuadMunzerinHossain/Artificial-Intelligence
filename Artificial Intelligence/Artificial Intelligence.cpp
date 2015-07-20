@@ -56,7 +56,6 @@ int main(int argc, const char* argv[])
 		// invalid command
 		else 
 		{
-			cout << "hello" << endl;
 			showHelp(); 
 		}
 	}
