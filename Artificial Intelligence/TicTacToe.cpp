@@ -1,17 +1,18 @@
 #include "stdio.h"
 #include "TicTacToe.h"
+
 #include <iostream>
 
 using namespace std;
 
 int tictactoe(bool firstTurn)
 {
-	//initialize the board, a 2D 3x3 array
+	// Initialize the board, a 2D 3x3 array
 	char board[3][3];
 	char player;
 	char ai;
 
-	//note: rules of tic-tac-toe state that X goes first
+	// Note: rules of tic-tac-toe state that X goes first
 	if (firstTurn == true)
 	{
 		player = 'X';
@@ -24,7 +25,7 @@ int tictactoe(bool firstTurn)
 		ai = 'X';
 	}
 
-	//make the board empty at the start of the game
+	// Make the board empty at the start of the game
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -33,13 +34,14 @@ int tictactoe(bool firstTurn)
 		}
 	}
 
-	//if ai goes first, it will always place the first piece on the middle of the board
+	// If AI goes first, it will always place the first piece on the middle of the board
 	if (firstTurn == false)
 	{
 		board[1][1] = ai;
 		printBoard(board);
 		cout << "I have placed my mark at [2,2]" << endl;
 	}
+	
 	else
 	{
 		printBoard(board);
@@ -48,18 +50,18 @@ int tictactoe(bool firstTurn)
 
 	while (boardFull(board) == false)
 	{
-		//beginning of human move
+		// Beginning of human move
 		int row;
 		int column;
 
-		cout << "Enter row and column no. where you want to place your mark (Top left is [1,1])" << endl;
+		cout << "Enter row and column # where you want to place your mark (Top left is [1,1])" << endl;
 		cin >> row >> column;
 
 		if (board[row - 1][column - 1] == ' ')
 		{
 			board[row - 1][column - 1] = player;
 			printBoard(board);
-			cout << "You have placed your piece at [" << row - 1 << "][" << column - 1 << "]" << endl;
+			cout << "You have placed your piece at [" << row << "][" << column << "]" << endl;
 		}
 
 		else
@@ -68,45 +70,67 @@ int tictactoe(bool firstTurn)
 
 			while (exitLogicLoop == false)
 			{
-				cout << "Invalid move, that location is not empty." << endl;
-				cout << "Enter row and column no. where you want to place your mark (Top left is [1,1])" << endl;
+				cout << "Invalid move, that location is either not empty or not valid." << endl;
+				cout << "Enter row and column # where you want to place your mark (Top left is [1,1])" << endl;
 				cin >> row >> column;
 
 				if (board[row - 1][column - 1] == ' ')
 				{
 					board[row - 1][column - 1] = player;
 					printBoard(board);
-					cout << "You have placed your mark at [" << row - 1 << "][" << column - 1 <<"]"<< endl;
+					cout << "You have placed your mark at [" << row << "][" << column <<"]"<< endl;
 					exitLogicLoop = true;
 				}
 			}
 		}
-		//end of human move
-
+		// End of human move
+		
+		// Check if the player has won the game
 		if (isGameWon(board, player) == true)
 		{
 			cout << "Game Over. You win." << endl;
+			cout << "______________________________________________________________________________" << endl;
 			return 1;
 		}
 
+		// Check if the AI has won the game
 		else if (isGameWon(board, ai) == true)
 		{
 			cout << "Game Over. I win." << endl;
+			cout << "______________________________________________________________________________" << endl;
 			return 2;
 		}
 
+		// If the board is not full, the AI will make a move
 		if (boardFull(board) == false)
 		{
 			aiPlacePiece(board, ai, player);
-			printBoard(board);
+			// printBoard(board);
+
+			// Check if the player has won the game
+			if (isGameWon(board, player) == true)
+			{
+				cout << "Game Over. You win." << endl;
+				cout << "______________________________________________________________________________" << endl;
+				return 1;
+			}
+
+			// Check if the AI has won the game
+			else if (isGameWon(board, ai) == true)
+			{
+				cout << "Game Over. I win." << endl;
+				cout << "______________________________________________________________________________" << endl;
+				return 2;
+			}
 		}
 	}
-
 	cout << "Game Over. It is a draw." << endl;
+	cout << "______________________________________________________________________________" << endl;
 	return 0;
 }
 
-bool boardFull(char  (&board)[3][3])
+// Function to check if the board is full; will return false if any unoccupied spaces are found
+bool boardFull(char (&board)[3][3])
 {
 	for (int i = 0; i < 3; i++)
 	{
@@ -121,8 +145,11 @@ bool boardFull(char  (&board)[3][3])
 	return true;
 }
 
+// Function to visualize the board; will print the board on the console
 void printBoard(char(&board)[3][3])
 {
+	cout << "______________________________________________________________________________" << endl;
+	cout << endl;
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -152,6 +179,9 @@ void aiPlacePiece(char(&board)[3][3], char ai, char player)
 
 				if (calculateLongestStreakAtThisLocation(board, i, j, ai) == 3)
 				{
+					printBoard(board);
+					cout << "I placed my mark at [" << i + 1 << "][" << j + 1 << "]" << endl;
+					cout << endl;
 					return;
 				}
 
@@ -165,6 +195,9 @@ void aiPlacePiece(char(&board)[3][3], char ai, char player)
 				if (calculateLongestStreakAtThisLocation(board, i, j, player) == 3)
 				{
 					board[i][j] = ai;
+					printBoard(board);
+					cout << "I placed my mark at [" << i + 1 << "][" << j + 1 << "]" << endl;
+					cout << endl;
 					return;
 				}
 
@@ -193,7 +226,6 @@ void aiPlacePiece(char(&board)[3][3], char ai, char player)
 				{
 					besti = i;
 					bestj = j;
-
 				}
 
 				board[i][j] = ' ';
@@ -203,6 +235,10 @@ void aiPlacePiece(char(&board)[3][3], char ai, char player)
 	}
 	streak = true;
 	board[besti][bestj] = ai;
+	printBoard(board);
+	cout << "I placed my mark at [" << besti + 1 << "][" << bestj + 1 << "]" << endl;
+	cout << endl;
+
 	return;
 }
 

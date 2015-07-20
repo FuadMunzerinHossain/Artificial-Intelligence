@@ -48,6 +48,7 @@ string makeLowerCase(const string &input)
 void showHelp()
 {
 	cout << "Acceptable commands are: \nhelp, reset, summary, play/game, exit" << endl;
+	return;
 }
 
 void showSummary(clock_t &start, int &playerWins, int &aiWins)
