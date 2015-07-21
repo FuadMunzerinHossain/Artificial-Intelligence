@@ -22,6 +22,8 @@ int main(int argc, const char* argv[])
 	{
 		// Get the command from the user
 		cout << endl;
+		cin.clear();
+		fflush(stdin);
 		cout << "How may I help you?" << endl;
 		getline(std::cin, command);
 		cout << endl;
