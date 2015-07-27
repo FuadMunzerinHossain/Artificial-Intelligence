@@ -1,3 +1,5 @@
+#pragma once
+
 int tictactoe(bool firstTurn);
 
 bool boardFull(char(&board)[3][3]);

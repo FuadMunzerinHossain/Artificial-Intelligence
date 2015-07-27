@@ -1,5 +1,6 @@
 #include "stdio.h"
 #include "TicTacToe.h"
+#include "PlacePieceHelper.h"
 #include <iostream>
 
 using namespace std;
@@ -51,36 +52,28 @@ int tictactoe(bool firstTurn)
 		//beginning of human move
 		int row;
 		int column;
+		while (true){
+			cout << "Enter row and column no. where you want to place your mark (Top left is [1,1])" << endl;
+			row = -1; column = -1;		// invalid values by default
+			cin >> row >> column;
+			cin.clear();											// Clear of any errors
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');	// flush the stream
 
-		cout << "Enter row and column no. where you want to place your mark (Top left is [1,1])" << endl;
-		cin >> row >> column;
-
-		if (board[row - 1][column - 1] == ' ')
-		{
-			board[row - 1][column - 1] = player;
-			printBoard(board);
-			cout << "You have placed your piece at [" << row - 1 << "][" << column - 1 << "]" << endl;
-		}
-
-		else
-		{
-			bool exitLogicLoop = false;
-
-			while (exitLogicLoop == false)
-			{
+			if (row > 3 || row <= 0 || column > 3 || 
+				column <= 0 || board[row - 1][column - 1] != ' '){
+				
 				cout << "Invalid move, that location is not empty." << endl;
-				cout << "Enter row and column no. where you want to place your mark (Top left is [1,1])" << endl;
-				cin >> row >> column;
+			}
 
-				if (board[row - 1][column - 1] == ' ')
-				{
-					board[row - 1][column - 1] = player;
-					printBoard(board);
-					cout << "You have placed your mark at [" << row - 1 << "][" << column - 1 <<"]"<< endl;
-					exitLogicLoop = true;
-				}
+			else  // means (board[row - 1][column - 1] == ' ')
+			{
+				board[row - 1][column - 1] = player;
+				printBoard(board);
+				cout << "You have placed your piece at [" << row << "][" << column << "]" << endl;
+				break;
 			}
 		}
+		
 		//end of human move
 
 		if (isGameWon(board, player) == true)
@@ -141,6 +134,25 @@ void aiPlacePiece(char(&board)[3][3], char ai, char player)
 	int besti;
 	int bestj;
 	bool streak = true;
+
+	/*  // More logical ai move using PlacePieceHelper.cpp . Comment in to implement
+	int winPosX, winPosY;	// to be passed by reference and initialized below:
+	// ORDER OF OR OPERANDS MATTER!...
+	if (//1.if there is an immediate win for AI, go for it:
+		findImmediateWin(winPosX, winPosY, ai, board) || 
+		//2.if there is an immediate win for player, block it:
+		findImmediateWin(winPosX, winPosY, player, board) || 
+		//3.if there is fork opportunity for ai, secure it:
+		isForkPossible(winPosX, winPosY, ai, board)	||
+		//4.if there is fork opportunity for player, block it:
+		isForkPossible(winPosX, winPosY, player, board)
+		)
+	{
+			board[winPosX][winPosY] = ai;
+			return;
+	}
+	// If above 4 is not possible, go for the streak method...
+	*/
 
 	for (int i = 0; i < 3; i++)
 	{
