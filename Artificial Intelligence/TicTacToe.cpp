@@ -57,13 +57,13 @@ int tictactoe(bool firstTurn)
 		cout << "Enter row and column # where you want to place your mark (Top left is [1,1])" << endl;
 		cin >> row >> column;
 
-		if (board[row - 1][column - 1] == ' ')
+		if (isLegalMove(board, row - 1, column- 1) == true)
 		{
 			board[row - 1][column - 1] = player;
 			printBoard(board);
 			cout << "You have placed your piece at [" << row << "][" << column << "]" << endl;
 		}
-
+		
 		else
 		{
 			bool exitLogicLoop = false;
@@ -74,11 +74,11 @@ int tictactoe(bool firstTurn)
 				cout << "Enter row and column # where you want to place your mark (Top left is [1,1])" << endl;
 				cin >> row >> column;
 
-				if (board[row - 1][column - 1] == ' ')
+				if (isLegalMove(board, row - 1, column - 1) == true)
 				{
 					board[row - 1][column - 1] = player;
 					printBoard(board);
-					cout << "You have placed your mark at [" << row << "][" << column <<"]"<< endl;
+					cout << "You have placed your mark at [" << row << "][" << column << "]" << endl;
 					exitLogicLoop = true;
 				}
 			}
@@ -167,7 +167,8 @@ void aiPlacePiece(char(&board)[3][3], char ai, char player)
 {
 	int besti;
 	int bestj;
-	bool streak = true;
+	bool threeStreakExistsForHuman = false;
+	bool twoStreakExistsForAI = false;
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -175,6 +176,7 @@ void aiPlacePiece(char(&board)[3][3], char ai, char player)
 		{
 			if (board[i][j] == ' ')
 			{
+				// Begin AI 3 streak check
 				board[i][j] = ai;
 
 				if (calculateLongestStreakAtThisLocation(board, i, j, ai) == 3)
@@ -186,54 +188,54 @@ void aiPlacePiece(char(&board)[3][3], char ai, char player)
 				}
 
 				board[i][j] = ' ';
-			}
+				// End AI 3 streak check
 
-			if (board[i][j] == ' ')
-			{
+				// Begin player 3 streak check
 				board[i][j] = player;
 
 				if (calculateLongestStreakAtThisLocation(board, i, j, player) == 3)
 				{
+					besti = i;
+					bestj = j;
+					threeStreakExistsForHuman = true;
+				}
+
+				board[i][j] = ' ';
+				// End player 3 streak check
+
+				if (threeStreakExistsForHuman == false)
+				{
+					// Begin AI 2 streak check
 					board[i][j] = ai;
-					printBoard(board);
-					cout << "I placed my mark at [" << i + 1 << "][" << j + 1 << "]" << endl;
-					cout << endl;
-					return;
+
+					if (calculateLongestStreakAtThisLocation(board, i, j, ai) == 2)
+					{
+						besti = i;
+						bestj = j;
+						twoStreakExistsForAI = true;
+					}
+
+					board[i][j] = ' ';
+					// End AI 2 streak check
+
+					if (twoStreakExistsForAI == false)
+					{
+						// Begin player 2 streak check
+						board[i][j] = player;
+
+						if (calculateLongestStreakAtThisLocation(board, i, j, player) == 2)
+						{
+							besti = i;
+							bestj = j;
+						}
+
+						board[i][j] = ' ';
+						// End player 2 streak check
+					}
 				}
-
-				board[i][j] = ' ';
-			}
-
-			if (board[i][j] == ' ')
-			{
-				board[i][j] = ai;
-
-				if (calculateLongestStreakAtThisLocation(board, i, j, ai) == 2)
-				{
-					besti = i;
-					bestj = j;
-					streak = false;
-				}
-
-				board[i][j] = ' ';
-			}
-
-			if (board[i][j] == ' ')
-			{
-				board[i][j] = player;
-
-				if (calculateLongestStreakAtThisLocation(board, i, j, player) == 2 && streak == true)
-				{
-					besti = i;
-					bestj = j;
-				}
-
-				board[i][j] = ' ';
 			}
 		}
-		cout << endl;
 	}
-	streak = true;
 	board[besti][bestj] = ai;
 	printBoard(board);
 	cout << "I placed my mark at [" << besti + 1 << "][" << bestj + 1 << "]" << endl;
@@ -311,7 +313,7 @@ int calculateHorizontalScore(char(&board)[3][3], int i, int j, char piece)
 		score++;
 	}
 
-	tempj = i;
+	tempj = j;
 
 	while (tempj < 2 && board[i][tempj+1] == piece)
 	{
@@ -419,4 +421,17 @@ bool isGameWon(char(&board)[3][3], char piece)
 	}
 
 	return false;
+}
+
+bool isLegalMove(char(&board)[3][3], int i, int j)
+{
+	if (i < 0 || i > 2 || j < 0 || j > 2 || board[i][j] != ' ')
+	{
+		return false;
+	}
+
+	else
+	{
+		return true;
+	}
 }

@@ -57,6 +57,8 @@ void showSummary(clock_t &start, int &playerWins, int &aiWins)
 	cout << "Age of AI is " << duration << " seconds." << endl;
 	cout << "Player has " << playerWins << " game win(s)." << endl;
 	cout << "AI has " << aiWins << " game win(s)." << endl;
+
+	return;
 }
 
 void exitAI(bool &exit, clock_t &start, int &playerWins, int &aiWins)
@@ -73,6 +75,8 @@ void exitAI(bool &exit, clock_t &start, int &playerWins, int &aiWins)
 	{
 		duration = (clock() - exitStart) / (double)CLOCKS_PER_SEC;
 	}
+
+	return;
 }
 
 void playGame()
@@ -117,6 +121,8 @@ void playGame()
 			tictactoe(false);
 		}
 	}
+	
+	return;
 }
 
 
