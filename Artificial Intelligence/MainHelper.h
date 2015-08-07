@@ -6,6 +6,7 @@
 #include <string>
 #include <algorithm>
 #include <vector>
+#include <iterator>
 
 #include "stdio.h"
 #include "TicTacToe.h"
